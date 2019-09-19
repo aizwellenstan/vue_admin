@@ -161,6 +161,7 @@ export default {
       await this.$store.dispatch('user/logout')
       // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       document.location.href = '/'
+      delete localStorage.token
     },
     /**
     * Router

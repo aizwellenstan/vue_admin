@@ -134,19 +134,6 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/cctv',
-    children: [
-      {
-        path: 'cctv',
-        component: () => import('@/views/cctv'),
-        name: 'Cctv',
-        meta: { title: 'Cctv', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: Layout,
     redirect: '/learn',
     children: [
       {
@@ -213,6 +200,19 @@ export const constantRoutes = [
       }
     ],
     hidden: true
+  },
+  {
+    path: '/admin',
+    component: Layout,
+    redirect: '/admin/cctv',
+    children: [
+      {
+        path: 'cctv',
+        component: () => import('@/views/cctv'),
+        name: 'Cctv',
+        meta: { title: 'Cctv', affix: true }
+      }
+    ]
   },
   {
     path: '/admin',

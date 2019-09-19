@@ -2,42 +2,6 @@
   <div class="liveView">
     <video-player class="vjs-custom-skin" ref="videoPlayer" :options="playerOptions" @ready="onPlayerReadied" @timeupdate="onTimeupdate">
     </video-player>
-    <div class="selectWrapper">
-      Switch Tech：
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="tech" id="html5" value="Html5" v-model="currentTech" @change="changeTech">
-        <label class="form-check-label" for="html5">
-          Html5
-        </label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="tech" id="flash" value="Flash" v-model="currentTech" @change="changeTech">
-        <label class="form-check-label" for="flash">
-          Flash
-        </label>
-      </div>
-    </div>
-
-    <h5>Enter your streams link below</h5>
-    <div class="inputWrapper">
-      <div class="form-group row" v-if="currentStream==='RTMP'">
-        <label for="" class="col-sm-4 col-form-label">RTMP: </label>
-        <div class="col-sm-8">
-          <input class="form-control" type="text" placeholder="RTMP url here" v-model="streams.rtmp">
-        </div>
-      </div>
-      <div class="form-group row" v-else>
-        <label for="" class="col-sm-4 col-form-label">HLS: </label>
-        <div class="col-sm-8">
-          <input class="form-control" type="text" placeholder="HLS url here" v-model="streams.hls">
-        </div>
-      </div>
-    </div>
-    <div class="buttonWrapper">
-      <button class="btn btn-primary" type="button" @click="enterStream">Apply</button>
-    </div>
-
-    <Switcher></Switcher>
   </div>
 </template>
 
@@ -60,8 +24,9 @@ export default {
         hls: ''
       },
       playerOptions: {
+        height: '360px',
         overNative: true,
-        autoplay: false,
+        autoplay: true,
         controls: true,
         techOrder: ['flash', 'html5'],
         sourceOrder: true,
@@ -78,17 +43,10 @@ export default {
           {
             withCredentials: false,
             type: 'application/x-mpegURL',
-            src: 'http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8'
+            src: 'http://192.168.1.146:8080/stream/192-168-1-200-user-admin-password-channel-2-stream-0-sdp/index.m3u8'
           }
         ],
         poster: isProduction ? '/vue-videojs-demo/static/images/logo.png' : '/static/images/logo.png'
-        // controlBar: {
-        //   timeDivider: false, // 时间分割线
-        //   durationDisplay: false, // 总时间
-        //   progressControl: true, // 进度条
-        //   customControlSpacer: true, // 未知
-        //   fullscreenToggle: true // 全屏
-        // },
       }
     }
   },
