@@ -52,6 +52,7 @@
         <el-dropdown v-if="isLogin" class="right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
           <notification-bell
+          style="line-height:1.5 !important"
           :size="25"
           :count="getRemains()"
           upper-limit="50"
