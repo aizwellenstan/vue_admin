@@ -1,19 +1,17 @@
 <template>
   <div class="liveView">
-    <video-player class="vjs-custom-skin" ref="videoPlayer" :options="playerOptions" @ready="onPlayerReadied" @timeupdate="onTimeupdate">
-    </video-player>
+    <video-player ref="videoPlayer" class="vjs-custom-skin" :options="playerOptions" @ready="onPlayerReadied" @timeupdate="onTimeupdate" />
   </div>
 </template>
 
 <script>
-import Switcher from './components/Switcher'
+// import Switcher from './components/Switcher'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
 export default {
-  name: 'live',
   components: {
-    Switcher
+    // Switcher
   },
   data() {
     return {
@@ -34,7 +32,7 @@ export default {
           hls: { withCredentials: false },
           swf: isProduction ? '/vue-videojs-demo/static/media/video-js.swf' : '/static/media/video-js.swf'
         },
-        html5: { hls: { withCredentials: false } },
+        html5: { hls: { withCredentials: false }},
         sources: [
           {
             type: 'rtmp/mp4',

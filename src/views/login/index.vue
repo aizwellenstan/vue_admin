@@ -88,6 +88,7 @@ export default {
           })
         }).then(() => {
           this.$store.dispatch('user/login', this.user)
+          this.$store.state.signedIn = true
           // .then(() => {
           localStorage.setItem('token', 'ImLogin')
           // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })

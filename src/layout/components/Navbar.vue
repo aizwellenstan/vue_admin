@@ -144,13 +144,16 @@ export default {
       itemIndex: 0
     }
   },
+  mounted() {
+    isLogin= localStorage.getItem('token') === 'ImLogin'
+  },
   computed: {
     ...mapGetters([
       'sidebar',
       'avatar',
       'device',
       ['currentUser', 'isAuthenticated']
-    ])
+    ]),
   },
   methods: {
     toggleSideBar() {
