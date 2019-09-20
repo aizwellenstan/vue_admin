@@ -7,6 +7,9 @@
     </div>
      
     <div class="form">
+      <div v-if="errorMessage" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
       <span class="title">Create a NADI ID</span>
       <br>
       If you already have a NADI ID, please <router-link to="/login" class="lightblue">sign in here</router-link>.
@@ -29,7 +32,7 @@
           >
           <h5 id="usernameHelp" class="form-text text-muted">
             Username must be longer than 2 characters and shorter than 30.<br>
-            Username can only contain alphanumeric characters.
+            Username can only contain alphanumeric characters and under_scores.
           </h5>
         </div>
         <div class="form-row">
@@ -45,8 +48,8 @@
               required
             >
             <h5 id="passwordHelp" class="form-text text-muted">
-                Password must be 8 or more characters long.<br>
-                Password must have at least one small letter, one capital and one numeric digit. 
+              Password must be 8 or more characters long.<br>
+              Password must have 1 capital character
             </h5>
           </div>
           <div class="form-group col-md-6">
@@ -84,15 +87,10 @@
 </template>
 
 <script>
-import Joi from 'joi';
+import Joi from 'joi'
+// const SIGNUP_URL = 'http://localhost:5000/auth/signup';
 const REGISTER_URL = 'http://192.168.1.77:7778/colddata/register/'
-const schema = Joi.object().keys({
-    
-  username: Joi.string().regex(/(^[a-zA-Z0-9_]+$)/).min(2).max(30)
-    .required(),
-  password: Joi.string().regex(/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(^[a-zA-Z0-9@\$=!:.#%]+$)/).trim().min(8).required(),
-  confirmPassword: Joi.string().regex(/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(^[a-zA-Z0-9@\$=!:.#%]+$)/).trim().min(8).required(),
-});
+
 export default {
   data: () => ({
     signingUp: false,
@@ -100,77 +98,78 @@ export default {
     user: {
       username: '',
       password: '',
-      confirmPassword: '',
-    },
+      confirmPassword: ''
+    }
   }),
   watch: {
     user: {
       handler() {
-        this.errorMessage = '';
+        this.errorMessage = ''
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     signup() {
-        console.log('err')
-      this.errorMessage = '';
-      if (this.validUser()) {
-          console.log('err')
-        const body = {
-          username: this.user.username,
-          password: this.user.password,
-        };
-        this.signingUp = true;
+      this.errorMessage = ''
+      if(this.validUser()) {
         fetch(REGISTER_URL, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                'content-type': 'application/json',
-                'US': this.user.username,
-                'PS': this.user.password
-            }
-        }).then((response) => {
-          if (response.ok) {
-            return response.json()
-          }
-          return response.json().then((error) => {
-            throw new Error(error.message);
-          });
-        }).then((result) => {
-          localStorage.token = result.token;
-          setTimeout(() => {
-            this.signingUp = false;
-           this.$router.push('/login')
-          }, 1000);
-        }).catch((error) => {
-          setTimeout(() => {
-            this.signingUp = false;
-            this.errorMessage = error.message;
-          }, 1000);
-        });
+        method: 'post',
+        headers: {
+          'content-type': 'application/json',
+          'US': this.user.username,
+          'PS': this.user.password
+        }
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push('/login')
+        }
+        // return response.json().then((error) => {
+        //   throw new Error(error.message)
+        // })
+      }).then((result) => {
+        // localStorage.token = result.token
+        setTimeout(() => {
+          this.signingUp = false
+          this.$router.push('/login')
+        }, 1000)
+      }).catch((error) => {
+        setTimeout(() => {
+          this.signingUp = false
+          this.errorMessage = error.message
+        }, 1000)
+      })
+    }
       }
-    },
-    validUser() {
-      if (this.user.password !== this.user.confirmPassword) {
-          console.log('err')
-        this.errorMessage = 'Passwords must match. 🙈';
-        return false;
-      }
-      const result = Joi.validate(this.user, schema);
-      if (result.error === null) {
-        return true;
-      }
-      if (result.error.message.includes('username')) {
-          console.log('err')
-        this.errorMessage = 'Username is invalid. 😭';
-      } else {
-        this.errorMessage = 'Password is invalid. 🙈';
-      }
-      return false;
-    },
   },
-};
+  validUser() {
+    if (this.user.password !== this.user.confirmPassword) {
+      this.errorMessage = 'Passwords must match. 🙈'
+      return false
+    }
+
+    const schema = Joi.object().keys({
+      username: Joi.string().regex(/(^[a-zA-Z0-9_]+$)/).min(2).max(30)
+        .required(),
+      password: Joi.string().min(8).max(30).required(),
+      confirmPassword: Joi.string().min(8).max(30).required()
+    })
+
+    const result = Joi.validate(this.user, schema)
+    if (result.error === null) {
+      return true
+    }
+
+    if (result.error.message.includes('username')) {
+      this.errorMessage = 'Username is invalid. 😭'
+    } else {
+      this.errorMessage = 'Password is invalid. 🙈'
+    }
+
+    return false
+  }
+}
+
 </script>
 
 <style lang="scss" scoped>

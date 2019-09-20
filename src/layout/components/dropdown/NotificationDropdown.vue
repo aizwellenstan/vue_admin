@@ -1,15 +1,19 @@
 <template>
-  <va-dropdown
+  <div>
+    <img src="../../../assets/img/bell.png" style="width:26px; height:45px; padding-top:23px;">
+    <va-dropdown
     class="notification-dropdown"
     offset="0, 16px"
     boundary-body
   >
+  <img src="../../../assets/img/bell.png" style="width:26px; height:45px; padding-top:23px;">
     <va-icon
       slot="anchor"
       name="i-nav-notification"
       class="notification-dropdown__icon"
       :class="{'notification-dropdown__icon--unread': !allRead}"
     />
+    <img src="../../../assets/img/bell.png" style="width:26px; height:45px; padding-top:23px;">
     <div class="notification-dropdown__content pl-3 pr-3 pt-2 pb-2">
       <div
         v-for="option in computedOptions"
@@ -29,6 +33,7 @@
       </div>
     </div>
   </va-dropdown>
+  </div>
 </template>
 
 <script>
@@ -100,7 +105,7 @@ export default {
       right: 0;
       left: 0;
       top: -.5rem;
-      background-color: $brand-danger;
+      // background-color: $brand-danger;
       height: .375rem;
       width: .375rem;
       margin: 0 auto;
@@ -109,8 +114,8 @@ export default {
   }
 
   &__content {
-    background-color: $dropdown-background;
-    box-shadow: $gray-box-shadow;
+    // background-color: $dropdown-background;
+    // box-shadow: $gray-box-shadow;
     border-radius: .5rem;
     max-width: 19rem;
   }
@@ -118,12 +123,12 @@ export default {
   &__item {
     cursor: pointer;
     margin-bottom: .75rem;
-    color: $brand-secondary;
+    // color: $brand-secondary;
     flex-wrap: nowrap;
     position: relative;
 
     &--unread {
-      color: $vue-darkest-blue;
+      // color: $vue-darkest-blue;
 
       &:after {
         content: '';
@@ -133,14 +138,14 @@ export default {
         bottom: 0;
         height: .375rem;
         width: .375rem;
-        background-color: $brand-danger;
+        // background-color: $brand-danger;
         margin: auto;
         border-radius: .187rem;
       }
     }
 
     &:hover {
-      color: $vue-green;
+      // color: $vue-green;
     }
 
     &__avatar {

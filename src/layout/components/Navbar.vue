@@ -35,7 +35,7 @@
     </div>
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <search id="header-search" class="right-menu-item" style="padding-top:10px" />
+        <search id="header-search" class="right-menu-item"  style="height: 40px!important"/>
 
         <error-log class="errLog-container right-menu-item hover-effect" />
 
@@ -46,16 +46,14 @@
         </el-tooltip> -->
 
       </template>
-      <div v-if="isLogin" class="header-search right-menu-item">
+      <!-- <div v-if="isLogin" class="header-search right-menu-item">
         <img src="../../assets/img/bell.png" style="width:26px; height:45px; padding-top:23px;">
-      </div>
-
-      <div v-if="isLogin" class="header-search right-menu-item" />
-
-      <div v-if="isLogin" class="header-search right-menu-item" style="width:26px; height:10px;">
-        <notification-bell
+      </div> -->
+        <el-dropdown v-if="isLogin" class="right-menu-item hover-effect" trigger="click">
+        <div class="avatar-wrapper">
+          <notification-bell
           :size="25"
-          :count="1"
+          :count="5"
           upper-limit="50"
           counter-location="upperRight"
           counter-style="roundRectangle"
@@ -63,7 +61,16 @@
           counter-text-color="#FFFFFF"
           icon-color="#ffffff"
         />
-      </div>
+        </div>
+        <el-dropdown-menu slot="dropdown">
+          <li
+              v-for="(alert, index) in alerts"
+              :key="index"
+          >
+            <span style="padding-left: 10px; padding-right: 10px">{{ alert.text }}</span>
+          </li>
+        </el-dropdown-menu>
+      </el-dropdown>
       <div v-if="isLogin" class="header-search right-menu-item">
         <img src="../../assets/img/items.png" style="width:26px; height:45px; padding-top:23px;">
       </div>
@@ -74,18 +81,6 @@
           <i v-if="isLogin" class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <!-- <router-link to="/profile/index">
-            <el-dropdown-item>Profile</el-dropdown-item>
-          </router-link>
-          <router-link to="/">
-            <el-dropdown-item>Dashboard</el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a> -->
           <router-link v-if="!isLogin" to="/register">
             <el-dropdown-item>Register</el-dropdown-item>
           </router-link>
@@ -114,7 +109,7 @@ import Search from '@/components/HeaderSearch'
 // import { getToken } from '@/utils/auth'
 import NotificationBell from 'vue-notification-bell'
 
-// import NotificationDropdown from './dropdown/NotificationDropdown'
+import NotificationDropdown from './dropdown/NotificationDropdown'
 
 export default {
   components: {
@@ -124,8 +119,8 @@ export default {
     // Screenfull,
     // SizeSelect,
     Search,
-    NotificationBell
-    // NotificationDropdown
+    NotificationBell,
+    NotificationDropdown
   },
   data() {
     return {
@@ -141,7 +136,24 @@ export default {
           text: 'Subsystem'
         }
       ],
-      itemIndex: 0
+      itemIndex: 0,
+      alerts : [
+        {
+          text: 'alert1'
+        },
+        {
+          text: 'alert2'
+        },
+        {
+          text: 'alert3'
+        },
+        {
+          text: 'alert4'
+        },
+        {
+          text: 'alert5'
+        },
+      ],
     }
   },
   mounted() {
@@ -286,7 +298,7 @@ export default {
       top:0;
     clear: both;
     overflow: hidden;
-    padding: 18px 0;
+    padding: 23px 0;
     border-bottom: 1px solid #32d4d7;
   z-index: 1001;
 
@@ -368,4 +380,554 @@ export default {
 .active {
   width: calc(100%-210px)
 }
+
+@media (min-width: 992px){
+    .navbar-form {
+        margin-top: 21px;
+        margin-bottom: 21px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .md-toolbar-toggle{
+      display: none;
+    }
+
+
+    .navbar-nav.navbar-right > li > .dropdown-menu:before{
+        left: auto;
+        right: 12px;
+    }
+
+    .navbar-nav.navbar-right > li > .dropdown-menu:after{
+        left: auto;
+        right: 12px;
+    }
+
+    .footer:not(.footer-big){
+        nav > ul{
+           li:first-child{
+             margin-left: 0;
+           }
+        }
+    }
+
+    body > .navbar-collapse.collapse{
+        display: none !important;
+    }
+
+    .card{
+        form{
+            [class*="col-"]{
+                padding: 6px;
+            }
+            [class*="col-"]:first-child{
+                padding-left: 15px;
+            }
+            [class*="col-"]:last-child{
+                padding-right: 15px;
+            }
+        }
+    }
+
+    .sidebar{
+        .navbar-form{
+            display: none !important;
+        }
+        .nav-mobile-menu{
+            display: none;
+        }
+    }
+}
+
+/*          Changes for small display      */
+
+@media (max-width: 991px){
+  .md-toolbar .md-collapse{
+    display: none !important;
+  }
+
+  .main-panel > .content{
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+    .sidebar{
+        display: none;
+        box-shadow: none;
+
+        .sidebar-wrapper{
+            padding-bottom: 60px;
+        }
+
+        .nav-mobile-menu{
+            margin-top: 0;
+
+            .md-field{
+              width: auto;
+              margin: 10px 36px 0;
+            }
+
+            .notification{
+                float: left;
+                line-height: 30px;
+                margin-right: 8px;
+            }
+        }
+
+        .dropdown-menu {
+            position: static;
+            float: none;
+            width: auto;
+            margin-top: 0;
+            background-color: transparent;
+            border: 0;
+            display: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        .dropdown.open .dropdown-menu{
+          display: block;
+        }
+
+        .dropdown{
+          li:hover a{
+          }
+        }
+    }
+
+    html,
+    body{
+        overflow-x: hidden;
+    }
+
+    .menu-on-left{
+        .nav-open &{
+            .main-panel,
+            .wrapper-full-page,
+            .navbar-fixed > div{
+            }
+        }
+
+        .main-panel{
+            position: initial;
+        }
+
+        .sidebar,
+        .off-canvas-sidebar{
+            left: 0;
+            right: auto;
+        }
+
+        #bodyClick{
+            left: 260px;
+            right: auto;
+        }
+    }
+
+    .main-panel{
+        width: 100%;
+    }
+    .navbar-transparent{
+        padding-top: 15px;
+        background-color: rgba(0, 0, 0, 0.45);
+    }
+    body,
+    html{
+        position: relative;
+        overflow-x: hidden;
+    }
+    .navbar .container{
+         left: 0;
+          width: 100%;
+         position: relative;
+    }
+    .navbar .navbar-collapse.collapse,
+    .navbar .navbar-collapse.collapse.in,
+    .navbar .navbar-collapse.collapsing{
+        display: none !important;
+    }
+
+    .navbar-nav > li{
+        float: none;
+        position: relative;
+        display: block;
+    }
+
+    .sidebar,
+    .off-canvas-sidebar{
+        position: fixed;
+        display: block;
+        top: 0;
+        height: 100vh;
+        width: 260px;
+        right: 0;
+        left: auto;
+        z-index: 1032;
+        visibility: visible;
+        background-color: #9A9A9A;
+        overflow-y: visible;
+        border-top: none;
+        text-align: left;
+        padding-right: 0px;
+        padding-left: 0;
+
+        > ul {
+            position: relative;
+            z-index: 4;
+            overflow-y:scroll;
+            height: calc(100vh - 61px);
+            width: 100%;
+        }
+        &::before{
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            display: block;
+            content: "";
+            z-index: 1;
+        }
+
+        .logo{
+            position: relative;
+            z-index: 4;
+        }
+
+        .navbar-form{
+            margin: 10px 15px;
+            float: none !important;
+            padding-top: 1px;
+            padding-bottom: 1px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            margin-bottom: 15px;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+
+    .form-group{
+        .form-control{
+            font-size: 16px;
+            height: 37px
+        }
+    }
+
+    .navbar-form{
+        .btn{
+            position: absolute;
+            top: 27px;
+            right: 15px;
+        }
+    }
+
+    .nav-open .navbar-collapse{
+    }
+    .nav-open .navbar .container{
+        left: -250px;
+    }
+    .nav-open .main-panel{
+        left: 0;
+    }
+
+    .nav-open .sidebar{
+    }
+
+    .nav-open{
+        .off-canvas-sidebar,
+        .sidebar{
+        }
+    }
+
+    .close-layer{
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        left: auto;
+
+        content: "";
+        z-index: 9999;
+        overflow-x: hidden;
+
+
+        &.visible{
+            opacity: 1;
+        }
+    }
+
+    .navbar-toggle .icon-bar {
+          display: block;
+          position: relative;
+          background: #fff;
+          width: 24px;
+          height: 2px;
+          border-radius: 1px;
+          margin: 0 auto;
+    }
+
+    .navbar-header .navbar-toggle {
+        margin: 10px 15px 10px 0;
+        width: 40px;
+        height: 40px;
+    }
+    .bar1,
+    .bar2,
+    .bar3 {
+      outline: 1px solid transparent;
+    }
+
+
+    .md-toolbar-toggle{
+        .icon-bar:nth-child(2){
+          top: 0px;
+        }
+        .icon-bar:nth-child(3){
+          opacity: 1;
+        }
+        .icon-bar:nth-child(4){
+          bottom: 0px;
+        }
+
+        &.toggled{
+            .icon-bar:nth-child(1){
+              top: 6px;
+            }
+            .icon-bar:nth-child(2){
+              opacity: 0;
+            }
+            .icon-bar:nth-child(3){
+              bottom: 6px;
+            }
+        }
+    }
+
+    @-webkit-keyframes fadeIn {
+      0% {opacity: 0;}
+      100% {opacity: 1;}
+    }
+    @-moz-keyframes fadeIn {
+      0% {opacity: 0;}
+      100% {opacity: 1;}
+    }
+    @keyframes fadeIn {
+      0% {opacity: 0;}
+      100% {opacity: 1;}
+    }
+
+    .dropdown-menu .divider{
+        background-color: rgba(229, 229, 229, 0.15);
+    }
+
+    .navbar-nav {
+        margin: 1px 0;
+
+        .open .dropdown-menu > li {
+            & > a{
+                padding: 15px 15px 5px 50px;
+            }
+
+            &:first-child > a{
+                padding: 5px 15px 5px 50px;
+            }
+
+            &:last-child > a {
+                padding: 15px 15px 25px 50px;
+            }
+        }
+    }
+
+    [class*="navbar-"] .navbar-nav {
+        & > li > a,
+        > li > a:hover,
+        > li > a:focus,
+        .active > a,
+        .active > a:hover,
+        .active > a:focus,
+        .open .dropdown-menu > li > a,
+        .open .dropdown-menu > li > a:hover,
+        .open .dropdown-menu > li > a:focus,
+        .navbar-nav .open .dropdown-menu > li > a:active {
+            color: white;
+        }
+
+        & > li > a,
+        > li > a:hover,
+        > li > a:focus,
+        .open .dropdown-menu > li > a,
+        .open .dropdown-menu > li > a:hover,
+        .open .dropdown-menu > li > a:focus{
+            opacity: .7;
+            background: transparent;
+        }
+
+        &.navbar-nav .open .dropdown-menu > li > a:active {
+            opacity: 1;
+        }
+
+        & .dropdown > a{
+            &:hover .caret {
+                border-bottom-color: #777;
+                border-top-color: #777;
+            }
+            &:active .caret {
+                border-bottom-color: white;
+                border-top-color: white;
+            }
+        }
+
+    }
+
+    .dropdown-menu {
+        display: none;
+    }
+    .navbar-fixed-top {
+        -webkit-backface-visibility: hidden;
+    }
+    #bodyClick {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        opacity: 0;
+        top: 0;
+        left: auto;
+        right: 260px;
+        content: "";
+        z-index: 9999;
+        overflow-x: hidden;
+    }
+
+    .social-line .btn{
+    }
+    .subscribe-line .form-control{
+    }
+    .social-line.pull-right{
+        float: none;
+    }
+    .footer:not(.footer-big) nav > ul li{
+        float: none;
+    }
+    .social-area.pull-right{
+        float: none !important;
+    }
+    .form-control + .form-control-feedback{
+        margin-top: -8px;
+    }
+    .navbar-toggle:hover,.navbar-toggle:focus {
+        background-color: transparent !important;
+    }
+    .btn.dropdown-toggle{
+        margin-bottom: 0;
+    }
+    .media-post .author{
+        width: 20%;
+        float: none !important;
+        display: block;
+        margin: 0 auto 10px;
+    }
+    .media-post .media-body{
+        width: 100%;
+    }
+
+    .navbar-collapse.collapse{
+        height: 100% !important;
+    }
+    .navbar-collapse.collapse.in {
+        display: block;
+    }
+    .navbar-header .collapse, .navbar-toggle {
+        display:block !important;
+    }
+    .navbar-header {
+        float:none;
+    }
+    .navbar-collapse{
+        .nav p{
+            margin: 0;
+        }
+
+        [class^="pe-7s-"]{
+            float: left;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+    }
+}
+
+@media (max-width: 768px){
+  .footer .container{
+    justify-content: unset;
+    display: block;
+
+    nav{
+      display: block;
+    }
+
+    .copyright{
+      float: right;
+    }
+  }
+
+  .hidden-sm{
+    display: none !important;
+  }
+}
+@media (min-width: 768px){
+  .hidden-lg,
+  .hidden-md{
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 768px){
+  .block-md{
+    display: block !important;
+  }
+}
+
+
+
+@media (max-width: 480px), (max-width: 767px){
+    .form-group{
+        .form-control{
+            width: 83%;
+        }
+    }
+
+    .navbar-form{
+        .form-group{
+            margin-bottom: 0;
+        }
+    }
+}
+
+@media (min-width: 992px){
+    .table-full-width{
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+    .table-responsive{
+        overflow: visible;
+    }
+
+}
+
+@media screen and (max-width: 576px) {
+  .tim-typo{
+    padding-left: 11% !important;
+
+    .tim-note{
+      bottom: -25px !important;
+    }
+  }
+}
+
 </style>
