@@ -65,7 +65,7 @@
             </h5>
           </div>
         </div>
-        <input type="checkbox"> I agree to the NADI
+        <input type="checkbox" v-model="isChecked"> I agree to the NADI
         <router-link to="/termsofuse" class="lightblue">Terms of Use</router-link> and
         <router-link to="/privacy" class="lightblue">Privacy Policy</router-link>
         <br>
@@ -102,6 +102,7 @@ export default {
       password: '',
       confirmPassword: '',
     },
+    isChecked: false
   }),
   watch: {
     user: {
@@ -113,10 +114,8 @@ export default {
   },
   methods: {
     signup() {
-        console.log('err')
       this.errorMessage = '';
-      if (this.validUser()) {
-          console.log('err')
+      if (this.valid()) {
         const body = {
           username: this.user.username,
           password: this.user.password,
@@ -151,9 +150,12 @@ export default {
         });
       }
     },
-    validUser() {
+    valid() {
+      if (this.isChecked === false) {
+        this.errorMessage = 'Please agree Terms of Use and Privacy Policy. 🙈';
+        return false;
+      }
       if (this.user.password !== this.user.confirmPassword) {
-          console.log('err')
         this.errorMessage = 'Passwords must match. 🙈';
         return false;
       }
@@ -162,7 +164,6 @@ export default {
         return true;
       }
       if (result.error.message.includes('username')) {
-          console.log('err')
         this.errorMessage = 'Username is invalid. 😭';
       } else {
         this.errorMessage = 'Password is invalid. 🙈';

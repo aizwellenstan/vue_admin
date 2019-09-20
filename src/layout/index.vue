@@ -40,6 +40,9 @@ export default {
     // TagsView
   },
   mixins: [ResizeMixin],
+  mounted: {
+    isLogin : localStorage.getItem('token') == 'ImLogin',
+  },
   computed: {
     ...mapState({
       sidebar: state => state.app.sidebar,

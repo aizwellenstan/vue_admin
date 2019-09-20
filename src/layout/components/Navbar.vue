@@ -53,7 +53,7 @@
         <div class="avatar-wrapper">
           <notification-bell
           :size="25"
-          :count="5"
+          :count="getRemains()"
           upper-limit="50"
           counter-location="upperRight"
           counter-style="roundRectangle"
@@ -154,11 +154,12 @@ export default {
           text: 'alert5'
         },
       ],
+      count: 0
     }
   },
   mounted() {
     isLogin= localStorage.getItem('token') === 'ImLogin'
-  },
+	},
   computed: {
     ...mapGetters([
       'sidebar',
@@ -168,6 +169,17 @@ export default {
     ]),
   },
   methods: {
+    getRemains: function() {  // 算出プロパティのgetter関数と同じ処理
+			var count = 0;
+			var todos = this.alerts;
+			var length = todos.length;
+			for(var i = 0; i < length; i++) {
+				if(!todos[i].done) {
+					count++;
+				}
+			}
+			return count;
+		},
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },

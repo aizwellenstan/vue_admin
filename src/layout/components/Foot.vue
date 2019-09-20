@@ -20,7 +20,7 @@
         <br>
         "NADI", NADI logos, and other NADI trademarks are trademarks or registered trademarks of NADI
         or its affiliates in the U.S. and elsewhere (more info here). Other names or brands
-        are trademarks of their <br> respective owners.
+        are trademarks of their respective owners.
       </p>
     </div>
     <div class="lang">

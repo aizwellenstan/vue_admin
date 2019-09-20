@@ -18,7 +18,6 @@ export default {
       initialized: false,
       currentTech: '',
       streams: {
-        rtmp: '',
         hls: ''
       },
       playerOptions: {
@@ -26,25 +25,16 @@ export default {
         overNative: true,
         autoplay: true,
         controls: true,
-        techOrder: ['flash', 'html5'],
+        techOrder: ['html5'],
         sourceOrder: true,
-        flash: {
-          hls: { withCredentials: false },
-          swf: isProduction ? '/vue-videojs-demo/static/media/video-js.swf' : '/static/media/video-js.swf'
-        },
         html5: { hls: { withCredentials: false }},
         sources: [
-          {
-            type: 'rtmp/mp4',
-            src: 'rtmp://184.72.239.149/vod/&mp4:BigBuckBunny_115k.mov'
-          },
           {
             withCredentials: false,
             type: 'application/x-mpegURL',
             src: 'http://192.168.1.146:8080/stream/192-168-1-200-user-admin-password-channel-2-stream-0-sdp/index.m3u8'
           }
-        ],
-        poster: isProduction ? '/vue-videojs-demo/static/images/logo.png' : '/static/images/logo.png'
+        ]
       }
     }
   },
